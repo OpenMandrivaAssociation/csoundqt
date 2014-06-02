@@ -1,0 +1,20 @@
+[Desktop Entry]
+Categories=X-MandrivaLinux;AudioVideo;Audio;
+Comment[it]=Csound Qt signal processing environment
+Comment=Csound Qt signal processing environment
+Exec=csoundqt
+GenericName[it]=CsoundQt
+GenericName=CsoundQt
+Icon=csoundqt
+MimeType=
+Name[it]=CsoundQt
+Name=CsoundQt
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
