@@ -4,7 +4,7 @@
 
 Name:			qutecsound
 Version:		0.6.1
-Release:		1
+Release:		2
 Summary:		Frontend for the csound sound processor
 License:		LGPLv2.1
 Group:			Sound
