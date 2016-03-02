@@ -1,17 +1,16 @@
 %global optflags %{optflags} -Wstrict-aliasing=0 
 %define debug_package	%{nil}
 #define distsuffix mrb
-
-Name:			qutecsound
-Version:		0.6.1
-Release:		2
+%define oname CsoundQt
+Name:			csoundqt
+Version:		0.9.1
+Release:		1
 Summary:		Frontend for the csound sound processor
 License:		LGPLv2.1
 Group:			Sound
-URL:			http://qutecsound.sourceforge.net/
-Source0:		http://garr.dl.sourceforge.net/project/qutecsound/CsoundQt/0.8.3/%{name}-%{version}-src.tar.gz
-Source1:		%{name}.desktop
-Source3:		qcs-unix.pro
+URL:			http://csoundqt.github.io
+Source0:		http://garr.dl.sourceforge.net/project/qutecsound/CsoundQt/%{version}/%{oname}-%{version}.tar.gz
+Source1:		csoundqt.desktop
 BuildRequires:		desktop-file-utils
 BuildRequires:		qt4-devel
 BuildRequires:      	doxygen
@@ -21,7 +20,7 @@ BuildRequires:     	PyQt4
 BuildRequires:     	csound
 BuildRequires:     	pkgconfig(sndfile)
 BuildRequires:     	pkgconfig(python)
-
+%rename			qutecsound
 
 
 Requires:     	csound
@@ -47,11 +46,10 @@ It hopes to be both a simple tool for
 the beginner, as well as a powerful tool for experienced users.
 
 %prep
-%setup -q
-cp -r %{SOURCE3} qcs-unix.pro
+%setup -qn %{oname}-%{version}
 
 %build
-%qmake_qt4 qcs.pro 
+%qmake_qt4 qcs.pro CSOUND_LIBRARY_DIR=%_libdir
 %make
 
 %install
@@ -59,7 +57,7 @@ cp -r %{SOURCE3} qcs-unix.pro
 install -d %{buildroot}/usr/{bin,share/{applications,{,doc}/%{name}}}
 
 # Bin file
-install -Dm755 bin/qutecsound-f "%{buildroot}%{_bindir}/%{name}"
+install -Dm755 bin/CsoundQt-d-cs6 "%{buildroot}%{_bindir}/%{name}"
 
 # Examples docs and data
 cp -a examples %{buildroot}%{_datadir}/%{name}

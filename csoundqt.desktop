@@ -1,14 +1,14 @@
 [Desktop Entry]
 Categories=X-MandrivaLinux;AudioVideo;Audio;
-Comment[it]=qutecsound Qt signal processing environment
-Comment=qutecsound Qt signal processing environment
-Exec=qutecsound
-GenericName[it]=qutecsound
-GenericName=qutecsound
-Icon=qutecsound
+Comment[it]=csoundqt Qt signal processing environment
+Comment=csoundqt Qt signal processing environment
+Exec=csoundqt
+GenericName[it]=csoundqt
+GenericName=csoundqt
+Icon=csoundqt
 MimeType=
-Name[it]=qutecsound
-Name=qutecsound
+Name[it]=csoundqt
+Name=csoundqt
 Path=
 StartupNotify=true
 Terminal=false
