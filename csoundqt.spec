@@ -3,8 +3,8 @@
 #define distsuffix mrb
 %define oname CsoundQt
 Name:			csoundqt
-Version:		0.9.1
-Release:		2
+Version:		0.9.3
+Release:		1
 Summary:		Frontend for the csound sound processor
 License:		LGPLv2.1
 Group:			Sound
@@ -48,6 +48,8 @@ the beginner, as well as a powerful tool for experienced users.
 %prep
 %setup -qn %{oname}-%{version}
 
+sed -i 's/Q_NULLPTR/NULL/' src/documentpage.cpp
+
 %build
 %qmake_qt4 qcs.pro CSOUND_LIBRARY_DIR=%_libdir
 %make
@@ -72,7 +74,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %files
-%doc ChangeLog BUILDING COPYING doc/*
+%doc ChangeLog BUILDING.md COPYING doc/*
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/%{name}
