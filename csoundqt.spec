@@ -8,7 +8,7 @@ Release:		1
 Summary:		Frontend for the csound sound processor
 License:		LGPLv2.1
 Group:			Sound
-URL:			http://csoundqt.github.io
+URL:			https://csoundqt.github.io
 Source0:		http://garr.dl.sourceforge.net/project/qutecsound/CsoundQt/%{version}/%{oname}-%{version}.tar.gz
 Source1:		csoundqt.desktop
 BuildRequires:		desktop-file-utils
