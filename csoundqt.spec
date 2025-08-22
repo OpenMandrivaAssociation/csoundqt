@@ -1,85 +1,114 @@
-%global optflags %{optflags} -Wstrict-aliasing=0 
-%define debug_package	%{nil}
-#define distsuffix mrb
-%define oname CsoundQt
-Name:			csoundqt
-Version:		0.9.3
-Release:		1
-Summary:		Frontend for the csound sound processor
-License:		LGPLv2.1
-Group:			Sound
-URL:			https://csoundqt.github.io
-Source0:		http://garr.dl.sourceforge.net/project/qutecsound/CsoundQt/%{version}/%{oname}-%{version}.tar.gz
-Source1:		csoundqt.desktop
-BuildRequires:		desktop-file-utils
-BuildRequires:		qt4-devel
-BuildRequires:      	doxygen
-BuildRequires:     	imagemagick
-BuildRequires:     	csound-devel
-BuildRequires:     	PyQt4
-BuildRequires:     	csound
-BuildRequires:     	pkgconfig(sndfile)
-BuildRequires:     	pkgconfig(python)
-%rename			qutecsound
+%define	oname	CsoundQt
 
-
-Requires:     	csound
+Summary:	Front-end for the csound sound processor
+Name:	csoundqt
+Version:	7.0.0
+Release:	0.alpha.1
+License:	LGPLv2+
+Group:	Sound
+Url:			https://csoundqt.github.io/
+#Source0:	https://github.com/%%{oname}/%%{oname}/archive/%%{oname}-%%{version}.tar.gz
+Source0:	%{oname}-%{version}-alpha.tar.gz
+BuildRequires:	byacc
+BuildRequires:	cmake
+BuildRequires:	csound >= 7.0.0
+BuildRequires:	desktop-file-utils
+BuildRequires:	doxygen
+BuildRequires:	flex
+BuildRequires:	qt6-qttools-linguist-tools
+BuildRequires:	csound-devel >= 7.0.0
+BuildRequires:	python-qt6-devel
+BuildRequires:	pkgconfig(alsa)
+BuildRequires:	pkgconfig(jack)
+BuildRequires:	pkgconfig(python3)
+BuildRequires:	pkgconfig(Qt6Concurrent)
+BuildRequires:	pkgconfig(Qt6Core)
+BuildRequires:	pkgconfig(Qt6Gui)
+#BuildRequires:	pkgconfig(Qt5Multimedia)
+#BuildRequires:	pkgconfig(Qt5MultimediaWidgets)
+BuildRequires:	pkgconfig(Qt6Network)
+BuildRequires:	pkgconfig(Qt6OpenGL)
+BuildRequires:	pkgconfig(Qt6PrintSupport)
+BuildRequires:	pkgconfig(Qt6Qml)
+BuildRequires:	pkgconfig(Qt6QmlMeta)
+BuildRequires:	pkgconfig(Qt6QmlModels)
+BuildRequires:	pkgconfig(Qt6QmlWorkerScript)
+BuildRequires:	pkgconfig(Qt6Quick)
+BuildRequires:	pkgconfig(Qt6QuickWidgets)
+#BuildRequires:	pkgconfig(Qt5Sql)
+#BuildRequires:	pkgconfig(Qt5Svg)
+#BuildRequires:	pkgconfig(Qt5WebChannel)
+#BuildRequires:	pkgconfig(Qt5WebEngine)
+#BuildRequires:	pkgconfig(Qt5WebEngineCore)
+#BuildRequires:	pkgconfig(Qt5WebEngineWidgets)
+BuildRequires:	pkgconfig(Qt6Widgets)
+BuildRequires:	pkgconfig(Qt6Xml)
+BuildRequires:	pkgconfig(rtmidi)
+BuildRequires:	pkgconfig(sndfile)
+Requires:	csound >= 7.0.0
+Requires:	python3dist(pyqt6)
+%rename	qutecsound
 
 %description
-CsoundQt is a frontend for Csound featuring 
-a highlighting editor with autocomplete, 
-interactive widgets and integrated help. 
-It is a cross-platform and aims to be a simple 
-yet powerful and complete development environment 
-for Csound. It can open files created by MacCsound. 
-Csound is a musical programming 
-language with a very long history,
-with roots in the origins of computer music.
-It is still being maintained by an active 
-community and despite its age, is still one of 
-the most powerful tools for sound processing and synthesis. 
-CsoundQt hopes to bring the power of 
-Csound to a larger group of people, by reducing 
-Csound's intial learning curve, and by giving 
-users more immediate control of their sound. 
-It hopes to be both a simple tool for 
-the beginner, as well as a powerful tool for experienced users.
-
-%prep
-%setup -qn %{oname}-%{version}
-
-sed -i 's/Q_NULLPTR/NULL/' src/documentpage.cpp
-
-%build
-%qmake_qt4 qcs.pro CSOUND_LIBRARY_DIR=%_libdir
-%make
-
-%install
-# Prepare folders no install provided
-install -d %{buildroot}/usr/{bin,share/{applications,{,doc}/%{name}}}
-
-# Bin file
-install -Dm755 bin/CsoundQt-d-cs6 "%{buildroot}%{_bindir}/%{name}"
-
-# Examples docs and data
-cp -a examples %{buildroot}%{_datadir}/%{name}
-cp -a images %{buildroot}%{_datadir}/%{name}
-
-
-# Desktop file and pixmaps
-install -Dm644 %{SOURCE1} "%{buildroot}%{_datadir}/applications"
-install -Dm644 images/qtcs.png "%{buildroot}%{_datadir}/pixmaps/%{name}.png"
-
-desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
-
+This is a front-end for Csound featuring a highlighting editor with
+auto-complete, interactive widgets and integrated help. It is a cross platform
+and aims to be a simple yet powerful and complete development environment for
+Csound. It can open files created by MacCsound. Csound is a musical
+programming language with a very long history, with roots in the origins of
+computer music. It is still being maintained by an active community and
+despite its age, is still one of the most powerful tools for sound processing
+and synthesis. This program  hopes to bring the power of Csound to a larger
+group of people, by reducing Csound's initial learning curve, and by giving
+users more immediate control of their sound. It hopes to be both a simple
+tool for the beginner, as well as a powerful tool for experienced users.
 
 %files
-%doc ChangeLog BUILDING.md COPYING doc/*
-%{_bindir}/%{name}
-%{_datadir}/applications/%{name}.desktop
+%doc ChangeLog COPYING README.md
+%doc doc/*.pdf doc/images/* release_notes/*.md
+%{_bindir}/*
 %{_datadir}/%{name}
-%{_datadir}/pixmaps/%{name}.png
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/mime/packages/x-csound-*.xml
+%{_datadir}/icons/hicolor/*/mimetypes/csound.png
+%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
+
+#----------------------------------------------------------------------------
+
+%prep
+%autosetup -p1 -n %{oname}-%{version}-alpha
+
+# Fix paths
+sed -i s,"/usr/lib","%{_libdir}",g qcs-unix.pro
+sed -i s,"/usr/local/include","%{_includedir}",g qcs-unix.pro
 
 
+%build
+export CFLAGS="%{optflags}"
+export CXXFLAGS="%{optflags}"
+export LDFLAGS="%{ldflags}"
+%{_bindir}/qmake-qt6 qcs.pro CONFIG+=html_webengine CONFIG+=rtmidi INSTALL_DIR="%{buildroot}%{_prefix}" SHARE_DIR="%{buildroot}%{_datadir}" \
+%if "lib64" != "lib" 
+	libsuff=64 \
+%endif 
+	QMAKE_CFLAGS="${CFLAGS:-$CFLAGS}" \
+	QMAKE_CFLAGS_RELEASE="${CFLAGS:-$CFLAGS}" \
+	QMAKE_CFLAGS_OPTIMIZE="${CFLAGS:-$CFLAGS}" \
+	QMAKE_CFLAGS_OPTIMIZE_FULL="${CFLAGS:-$CFLAGS}" \
+	QMAKE_CXXFLAGS="${CXXFLAGS:-$CXXFLAGS}" \
+	QMAKE_CXXFLAGS_RELEASE="${CXXFLAGS:-$CXXFLAGS}" \
+	QMAKE_LFLAGS="$LDFLAGS" \
+	QMAKE_LFLAGS_RELEASE="$LDFLAGS"
+
+%make_build
 
 
+%install
+%make_install INSTALL_DIR="%{buildroot}%{_prefix}" SHARE_DIR="%{buildroot}%{_datadir}"
+
+# Install images data
+cp -a images %{buildroot}%{_datadir}/%{name}
+
+# Fix perms
+chmod -x "%{buildroot}%{_datadir}/%{name}/Examples/McCurdy Collection/LiveAudioIn/pitchamdf.csd"
+chmod -x %{buildroot}%{_datadir}/%{name}/Examples/CsoundQt/Miscellaneous/Pseudostereo.csd
+chmod -x %{buildroot}%{_datadir}/applications/%{name}.desktop 
