@@ -3,12 +3,12 @@
 Summary:	Front-end for the csound sound processor
 Name:	csoundqt
 Version:	7.0.0
-Release:	0.alpha.1
+Release:	0.beta.1
 License:	LGPLv2+
 Group:	Sound
 Url:			https://csoundqt.github.io/
 #Source0:	https://github.com/%%{oname}/%%{oname}/archive/%%{oname}-%%{version}.tar.gz
-Source0:	%{oname}-%{version}-alpha.tar.gz
+Source0:	%{oname}-%{version}-beta1.tar.gz
 BuildRequires:	byacc
 BuildRequires:	cmake
 BuildRequires:	csound >= 7.0.0
@@ -24,8 +24,6 @@ BuildRequires:	pkgconfig(python3)
 BuildRequires:	pkgconfig(Qt6Concurrent)
 BuildRequires:	pkgconfig(Qt6Core)
 BuildRequires:	pkgconfig(Qt6Gui)
-#BuildRequires:	pkgconfig(Qt5Multimedia)
-#BuildRequires:	pkgconfig(Qt5MultimediaWidgets)
 BuildRequires:	pkgconfig(Qt6Network)
 BuildRequires:	pkgconfig(Qt6OpenGL)
 BuildRequires:	pkgconfig(Qt6PrintSupport)
@@ -35,12 +33,6 @@ BuildRequires:	pkgconfig(Qt6QmlModels)
 BuildRequires:	pkgconfig(Qt6QmlWorkerScript)
 BuildRequires:	pkgconfig(Qt6Quick)
 BuildRequires:	pkgconfig(Qt6QuickWidgets)
-#BuildRequires:	pkgconfig(Qt5Sql)
-#BuildRequires:	pkgconfig(Qt5Svg)
-#BuildRequires:	pkgconfig(Qt5WebChannel)
-#BuildRequires:	pkgconfig(Qt5WebEngine)
-#BuildRequires:	pkgconfig(Qt5WebEngineCore)
-#BuildRequires:	pkgconfig(Qt5WebEngineWidgets)
 BuildRequires:	pkgconfig(Qt6Widgets)
 BuildRequires:	pkgconfig(Qt6Xml)
 BuildRequires:	pkgconfig(rtmidi)
@@ -75,7 +67,7 @@ tool for the beginner, as well as a powerful tool for experienced users.
 #----------------------------------------------------------------------------
 
 %prep
-%autosetup -p1 -n %{oname}-%{version}-alpha
+%autosetup -p1 -n %{oname}-%{version}-beta1
 
 # Fix paths
 sed -i s,"/usr/lib","%{_libdir}",g qcs-unix.pro
@@ -86,7 +78,8 @@ sed -i s,"/usr/local/include","%{_includedir}",g qcs-unix.pro
 export CFLAGS="%{optflags}"
 export CXXFLAGS="%{optflags}"
 export LDFLAGS="%{ldflags}"
-%{_bindir}/qmake-qt6 qcs.pro CONFIG+=html_webengine CONFIG+=rtmidi INSTALL_DIR="%{buildroot}%{_prefix}" SHARE_DIR="%{buildroot}%{_datadir}" \
+%{_bindir}/qmake-qt6 qcs.pro CONFIG+=html_webengine CONFIG+=html_support CONFIG+=rtmidi \
+											INSTALL_DIR="%{buildroot}%{_prefix}" SHARE_DIR="%{buildroot}%{_datadir}" \
 %if "lib64" != "lib" 
 	libsuff=64 \
 %endif 
@@ -110,5 +103,5 @@ cp -a images %{buildroot}%{_datadir}/%{name}
 
 # Fix perms
 chmod -x "%{buildroot}%{_datadir}/%{name}/Examples/McCurdy Collection/LiveAudioIn/pitchamdf.csd"
-chmod -x %{buildroot}%{_datadir}/%{name}/Examples/CsoundQt/Miscellaneous/Pseudostereo.csd
+#chmod -x %%{buildroot}%%{_datadir}/%%{name}/Examples/CsoundQt/Miscellaneous/Pseudostereo.csd
 chmod -x %{buildroot}%{_datadir}/applications/%{name}.desktop 
