@@ -1,20 +1,22 @@
+%global	debug_package %{nil}
 %define	oname	CsoundQt
 
 Summary:	Front-end for the csound sound processor
 Name:	csoundqt
 Version:	7.0.0
-Release:	0.beta.1
+Release:	0.beta.2
 License:	LGPLv2+
 Group:	Sound
 Url:			https://csoundqt.github.io/
 #Source0:	https://github.com/%%{oname}/%%{oname}/archive/%%{oname}-%%{version}.tar.gz
-Source0:	%{oname}-%{version}-beta1.tar.gz
+Source0:	%{oname}-%{version}-beta2.tar.xz
 BuildRequires:	byacc
 BuildRequires:	cmake
 BuildRequires:	csound >= 7.0.0
 BuildRequires:	desktop-file-utils
 BuildRequires:	doxygen
 BuildRequires:	flex
+BuildRequires:	make
 BuildRequires:	qt6-qttools-linguist-tools
 BuildRequires:	csound-devel >= 7.0.0
 BuildRequires:	python-qt6-devel
@@ -67,7 +69,7 @@ tool for the beginner, as well as a powerful tool for experienced users.
 #----------------------------------------------------------------------------
 
 %prep
-%autosetup -p1 -n %{oname}-%{version}-beta1
+%autosetup -p1 -n %{oname}-%{version}-beta2
 
 # Fix paths
 sed -i s,"/usr/lib","%{_libdir}",g qcs-unix.pro
@@ -103,5 +105,5 @@ cp -a images %{buildroot}%{_datadir}/%{name}
 
 # Fix perms
 chmod -x "%{buildroot}%{_datadir}/%{name}/Examples/McCurdy Collection/LiveAudioIn/pitchamdf.csd"
-#chmod -x %%{buildroot}%%{_datadir}/%%{name}/Examples/CsoundQt/Miscellaneous/Pseudostereo.csd
+chmod -x "%{buildroot}%{_datadir}/%{name}/Examples/CsoundQt/K Miscellaneous/Pseudostereo.csd"
 chmod -x %{buildroot}%{_datadir}/applications/%{name}.desktop 
